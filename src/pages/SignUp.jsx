@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import OAuth from "../components/OAuth";
+// import getAuth, createUserWithEmailAndPassword, updateProfile for authentication
+import {getAuth, createUserWithEmailAndPassword, updateProfile} from 'firebase/auth'
+import {db} from '../firebase'
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function SignUp() {
   // creating hook to set password to be invisible when user types
@@ -13,6 +19,7 @@ export default function SignUp() {
     password: "",
   });
   const { name, email, password } = isFormData;
+  const navigate = useNavigate()
 
   const handleOnChangeSignIn = (event) => {
     setIsFormData((prevState) => ({
@@ -20,6 +27,50 @@ export default function SignUp() {
       [event.target.id]: event.target.value,
     }));
   };
+ async function onSubmitSignUp(event) {
+    event.preventDefault();
+  //  handle a empty input field
+    if(!name || !email || !password){
+      toast.error('Please fill in all the required fields.')
+      return
+
+    }
+   // Creating user Firebase Default Authentication Method
+    try {
+      const auth = getAuth()
+      const userCredentials = await createUserWithEmailAndPassword(auth,email, password)
+      const user = userCredentials.user
+
+      // creating a method that updates the profile by add name
+      updateProfile(auth.currentUser, {displayName: name})
+      
+
+      // create a method that would delete the password from Firebase Authentication 
+      const formDataCopy = {...isFormData}
+      delete formDataCopy.password;
+      // create a method that would show the Timestamp user signed Up
+      formDataCopy.timestamp = serverTimestamp();
+      // creating a method that would save the user's password to database
+      await setDoc(doc(db, 'users', user.uid), formDataCopy)
+      // creating a method that would navigate user to home after successful signup
+      navigate('/')
+      
+    } catch (error) {
+     
+      if (error.code === 'auth/email-already-in-use') {
+        // Handle email already in use error
+        toast.error('Email is already in use. Please choose a different email.');
+      } else if (error.code === 'auth/weak-password') {
+        // Handle weak password error
+        toast.error('Password is too weak. Please choose a stronger password.');
+      } else {
+        // Handle other errors
+        toast.error('There was an error while creating the account');
+      }
+      
+    }
+  }
+
   return (
     <section>
       <h1 className="text-center text-3xl font-semibold my-3"> Sign Up </h1>
@@ -32,7 +83,7 @@ export default function SignUp() {
           />
         </div>
         <div className="w-full md:w-[67%] lg:w-[40%] lg:ml-20">
-          <form>
+          <form onSubmit={onSubmitSignUp}>
             <input
               type="text"
               className="mb-6 w-full text-xl rounded-md transition ease-in-out border-gray-300 bg-white text-gray-500 py-2 px-4"
