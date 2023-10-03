@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import OAuth from '../components/OAuth';
+import { toast } from 'react-toastify';
+// import the getAuth and SignInWithEmailAndPassword in order to sign in with
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 export default function SignIn() {
+  // create navigate method
+  const navigate = useNavigate();
   // creating hook to set password to be invisible when user types
   const [isShowPassword, setIsShowPassword] = useState(false)
   // Creating hook for getting data from signed in user
@@ -17,6 +22,20 @@ export default function SignIn() {
       ...prevState, [event.target.id]: event.target.value
     }))
   }
+  // Create a function for sign in with email and password
+  async function onSubmitSignIn(event){
+    event.preventDefault()
+    try {
+      const auth = getAuth()
+      const userCredentials = await signInWithEmailAndPassword(auth, email, password)
+      if(userCredentials.user){
+        // navigate to the Home page if the user account is registered
+        navigate('/')
+      }
+    } catch (error) {
+      toast.error( "COuldn't sign in with your email address:", error )
+    }
+  }
   return (
     <section>
       <h1 className='text-center text-3xl font-semibold my-3'>Sign In</h1>
@@ -27,7 +46,7 @@ export default function SignIn() {
           />
         </div>
         <div className='w-full md:w-[67%] lg:w-[40%] lg:ml-20'>
-          <form >
+          <form  onClick={onSubmitSignIn}>
             <input type='email' className='mb-6 w-full text-xl rounded-md transition ease-in-out border-gray-300 bg-white text-gray-500 py-2 px-4' id='email' value={email}  placeholder='Email Address' onChange={handleOnChangeSignIn} />
             <div className='relative mb-6'>
               <input type={isShowPassword ? 'text' : 'password'} className='w-full text-xl rounded-md transition ease-in-out border-gray-300 bg-white text-gray-500 py-2 px-4' id='password' value={password} placeholder='password' onChange={handleOnChangeSignIn} />
