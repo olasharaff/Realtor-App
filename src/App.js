@@ -19,7 +19,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/sign-in" element={<SignIn />} />
-          <Route path="sign-up" element={<SignUp />} />
+          <Route path="/sign-up" element={<SignUp />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
           <Route path="/offer" element={<Offer />} />
         </Routes>
@@ -34,7 +34,7 @@ function App() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
+        theme="dark"
       />
     </>
   );

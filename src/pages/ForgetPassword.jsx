@@ -1,18 +1,35 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import OAuth from '../components/OAuth';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function ForgetPassword() {
+  const navigate = useNavigate()
   // creating hook to set password to be invisible when user types
  
-  const [isEmail, setIsEmail] = useState('')
+  const [email, setEmail] = useState('')
  
 
   const handleOnChangeSignIn = (event) => {
-    setIsEmail(event.target.value)
+    setEmail(event.target.value)
+  }
+  // create a function to reset the password
+  async function onSubmitForgetPassword(){
+    try {
+      const auth = getAuth();
+      await sendPasswordResetEmail(auth, email)
+      toast.success('Link successfully sent to email', { position: 'top-center' })
+      navigate('/sign-in')
+      
+      
+    } catch (error) {
+      toast.error('Email is not registered')
+    }
   }
   return (
     <section>
+    <ToastContainer/>
       <h1 className='text-center text-3xl font-semibold my-3'>Forget Password</h1>
       <div className='flex justify-center max-w-6xl px-6 py-12 flex-wrap mx-auto items-center'>
         <div className='md:w-[67%] lg:w-[50%] mb-5 md:mb-6'>
@@ -21,8 +38,8 @@ export default function ForgetPassword() {
           />
         </div>
         <div className='w-full md:w-[67%] lg:w-[40%] lg:ml-20'>
-          <form >
-            <input type='email' className='mb-6 w-full text-xl rounded-md transition ease-in-out border-gray-300 bg-white text-gray-500 py-2 px-4' id='email' value={isEmail} placeholder='Email Address' onChange={handleOnChangeSignIn} />
+          <form onSubmit={onSubmitForgetPassword}>
+            <input type='email' className='mb-6 w-full text-xl rounded-md transition ease-in-out border-gray-300 bg-white text-gray-500 py-2 px-4' id='email' value={email} placeholder='Email Address' onChange={handleOnChangeSignIn} />
            
             <div className='flex justify-between whitespace-nowrap text-sm sm:text-lg mb-6'>
               <p>Don't have account? <Link className=' text-red-600 hover:text-red-700 transition duration-300 ease-in-out ml-1' to='/sign-up'> Register</Link> </p>

@@ -55,6 +55,7 @@ export default function SignUp() {
       // creating a method that would save the user's password to database
       await setDoc(doc(db, 'users', user.uid), formDataCopy)
       // creating a method that would navigate user to home after successful signup
+      toast.success('Account Successfully Registered',{position: 'top-center'})
       navigate('/')
       
     } catch (error) {
