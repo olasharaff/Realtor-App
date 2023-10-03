@@ -5,6 +5,7 @@ import OAuth from "../components/OAuth";
 // import getAuth, createUserWithEmailAndPassword, updateProfile for authentication
 import {getAuth, createUserWithEmailAndPassword, updateProfile} from 'firebase/auth'
 import {db} from '../firebase'
+// import in order submit user data from sign up to Firebase authentication & database 
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -27,6 +28,7 @@ export default function SignUp() {
       [event.target.id]: event.target.value,
     }));
   };
+  // creating a function for sign up form data
  async function onSubmitSignUp(event) {
     event.preventDefault();
   //  handle a empty input field
