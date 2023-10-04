@@ -32,11 +32,11 @@ export default function SignUp() {
  async function onSubmitSignUp(event) {
     event.preventDefault();
   //  handle a empty input field
-    if(!name || !email || !password){
-      toast.error('Please fill in all the required fields.')
-      return
+    // if(!name || !email || !password){
+    //   toast.error('Please fill in all the required fields.')
+    //   return
 
-    }
+    // }
    // Creating user Firebase Default Authentication Method
     try {
       const auth = getAuth()
@@ -59,17 +59,10 @@ export default function SignUp() {
       navigate('/')
       
     } catch (error) {
+      
      
-      if (error.code === 'auth/email-already-in-use') {
         // Handle email already in use error
         toast.error('Email is already in use. Please choose a different email.');
-      } else if (error.code === 'auth/weak-password') {
-        // Handle weak password error
-        toast.error('Password is too weak. Please choose a stronger password.');
-      } else {
-        // Handle other errors
-        toast.error('There was an error while creating the account');
-      }
       
     }
   }
