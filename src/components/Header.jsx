@@ -1,12 +1,28 @@
-import React from 'react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
 export default function Header() {
+    // create a hook for changing sign-in to profile when logged in 
+    const [isPage, isSetPage] = useState('Sign In')
+    const auth = getAuth()
     // useLocation ===> to get the location of pages
     const location = useLocation();
     // useNavigation ===> to  navigate through each pages 
     const navigate = useNavigate();
-    console.log(location.pathname);
+    
+// create hook useEffect to track the changing of sign in  and profile behaviour
+useEffect(()=>{
+    // Track the change in the authentication  
+onAuthStateChanged(auth, (user) =>{
+    // if the user exists or authenticated then set the isSetPage(profile)
+    if(user){
+        isSetPage('Profile')
+    } else{
+        isSetPage('Sign In')
+    }
+})
+}, [auth])
 
     function pathMatchesRoute(route) {
         return route === location.pathname;
@@ -36,8 +52,7 @@ export default function Header() {
                         >
                             Offer
                         </li>
-                        <li className={`cursor-pointer py-3 text-sm font-semibold text-gray-500 border-b-4 ${pathMatchesRoute('/sign-in') ? 'text-black border-b-red-500 cursor-pointer' : 'border-transparent'
-                            }`} onClick={(() => navigate('/sign-in'))}>Sign In </li>
+                        <li className={`cursor-pointer py-3 text-sm font-semibold text-gray-500 border-b-4 ${(pathMatchesRoute('/sign-in') || pathMatchesRoute('/profile')) && 'text-black border-b-red-500 cursor-pointer'} :  border-transparent `} onClick={(() => navigate('/profile'))}>{isPage} </li>
                     </ul>
                 </div>
             </header>

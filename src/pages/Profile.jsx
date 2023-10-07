@@ -58,7 +58,7 @@ export default function Profile() {
     <h1 className='text-3xl font-semibold text-center mt-5'> My Profile</h1>
     <div className="w-full md:w-[50%] mt-5">
       <form>
-            <input onChange={onChange} disabled={!changeProfile} type="text" className={`mb-5 w-full px-4 py-2 text-lg text-gray-600 border border-gray-400 rounded transition ease-in-out ${changeProfile && 'bg-red-200 focus: bg-red-300'}`} value={name} id='name'  />
+         <input onChange={onChange} disabled={!changeProfile} type="text" className={`mb-5 w-full px-4 py-2 text-lg text-gray-600 border border-gray-400 rounded transition ease-in-out ${changeProfile && 'bg-red-200 focus: bg-red-300'}`} value={name} id='name'  />
         <input  type="email"  className='mb-5 w-full px-4 py-2 text-lg text-gray-600 border border-gray-400 rounded transition ease-in-ou' value={email} id='email'/>
       
       <div className='flex justify-between whitespace-nowrap text-sm sm:text-lg'>
