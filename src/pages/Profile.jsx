@@ -4,6 +4,8 @@ import {doc, updateDoc} from 'firebase/firestore'
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { db } from '../firebase'
+import {FcHome}  from 'react-icons/fc'
+import { Link } from 'react-router-dom';
 
 export default function Profile() {
   const navigate = useNavigate()
@@ -61,7 +63,7 @@ export default function Profile() {
          <input onChange={onChange} disabled={!changeProfile} type="text" className={`mb-5 w-full px-4 py-2 text-lg text-gray-600 border border-gray-400 rounded transition ease-in-out ${changeProfile && 'bg-red-200 focus: bg-red-300'}`} value={name} id='name'  />
         <input  type="email"  className='mb-5 w-full px-4 py-2 text-lg text-gray-600 border border-gray-400 rounded transition ease-in-ou' value={email} id='email'/>
       
-      <div className='flex justify-between whitespace-nowrap text-sm sm:text-lg'>
+      <div className='mb-6 flex justify-between whitespace-nowrap text-sm sm:text-lg'>
      
               <p className='flex items-center' >Do you want to change your name? <span  /* create func to change and update profile */ onClick={() => { changeProfile && onSubmit(); setChangeProfile((prevState) => !prevState) }} className='text-red-500 ml-1 hover:text-red-700 transition duration-200 ease-in-out cursor-pointer'>
                 {/* Create a dynamic method=> if the change is true it should show Apply change otherwise Edit */} {changeProfile ? 'Apply change' : 'Edit'}
@@ -69,6 +71,7 @@ export default function Profile() {
         <p onClick={onLogOut} className='text-blue-500 hover:text-blue-700 transition duration-200 ease-in-out cursor-pointer'>Sign out</p>
       </div>
       </form>
+          <button type='submit' className='w-full px-2 py-3 rounded bg-blue-600 text-white font-medium uppercase shadow-md hover:bg-blue-700 transition duration-150 ease-out focus:bg-blue-800 focus:shadow-lg'> <Link to='/create-listing' className='flex justify-center items-center'> <FcHome  className='mr-2 text-3xl rounded-full px-1 bg-red-200 border-2'/> Sell or rent your home</Link> </button>
     </div>
     </section>
     </>
