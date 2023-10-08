@@ -29,7 +29,7 @@ onAuthStateChanged(auth, (user) =>{
     }
 
     return (
-        <div className='bg-white pt-1 border-b shadow-sm sticky z-50 top-0'>
+        <div className='bg-white pt-1 border-b shadow-sm sticky z-40 top-0'>
             <header className='flex justify-between max-w-6xl mx-auto px-4'>
                 <div>
                     <img
