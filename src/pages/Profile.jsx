@@ -9,19 +9,18 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import {  toast,  } from "react-toastify";
+import { toast } from "react-toastify";
 import { db } from "../firebase";
 import { FcHome } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import ListingItem from "../components/ListingItem";
 
-
 export default function Profile() {
   const navigate = useNavigate();
   const auth = getAuth();
   // create a hook to fetch the data from the listings function and set loading
-  const [listings, setListings] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [listings, setListings] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // create a hook for changing profile details
   const [changeProfile, setChangeProfile] = useState(false);
@@ -63,47 +62,39 @@ export default function Profile() {
       }
     } catch (error) {
       toast.error(`Could not update your profile ${error.message}`);
-      
     }
   }
 
   // CREATE USEEFFECT HOOK METHOD IN FETCHING THE DATA (UPLOADED DATA FOR SELL OR RENT)
   useEffect(() => {
-   
     // create async function to fetch userListing data from google firebase
     async function fetchUserListings() {
       // create a reference (its like a address)
 
-     const listingRef = collection(db, "listings");
-     /* create variable query to get the user that created listing in their profile using userRef(unique id) 
+      const listingRef = collection(db, "listings");
+      /* create variable query to get the user that created listing in their profile using userRef(unique id) 
       and sort it by using firebase methods ORDER BY and make it descending (desc)
       */
-     const q = query(
-       listingRef,
-       where("userRef", "==", auth.currentUser.uid),
-     );
-     // create a method to get the document using snapshot
-     const querySnap = await getDocs(q);
-     // create empty listings variable to loop through the querySnap using forEach method and add the date to the listings variable
-     let listings = [];
-     querySnap.forEach((doc) => {
-       // push each document inside arrays, and get the id, data coming from doc id, doc data
-       return listings.push({
-         i: doc.id,
-         data: doc.data(),
-       });
-     });
-     setListings(listings);
-     setLoading(false);
-     toast.success('Listing successfully added')
-
+      const q = query(listingRef, where("userRef", "==", auth.currentUser.uid));
+      // create a method to get the document using snapshot
+      const querySnap = await getDocs(q);
+      // create empty listings variable to loop through the querySnap using forEach method and add the date to the listings variable
+      let listings = [];
+      querySnap.forEach((doc) => {
+        // push each document inside arrays, and get the id, data coming from doc id, doc data
+        return listings.push({
+          i: doc.id,
+          data: doc.data(),
+        });
+      });
+      setListings(listings);
+      setLoading(false);
+      toast.success("Listing successfully added");
     }
 
     // call async function
     fetchUserListings();
-  
   }, [auth.currentUser.uid]);
- 
 
   return (
     <>
@@ -171,20 +162,19 @@ export default function Profile() {
         {/* The loading is true, but 
         create a condition if the loading is false because when it true it fetch the data */}
 
-        
-          <>
-            <h2 className="text-lg text-center font-medium">My Listing</h2>
-            <ul>
-            {listings && listings.map((listing) => (
-    <ListingItem
-        key={listing.id}
-        id={listing.id}
-        listing={listing.data}
-    />
-))}
-            </ul>
-          </>
-      
+        <>
+          <h2 className="text-lg text-center font-medium mb-6">My Listing</h2>
+          <ul className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mt-6 mb-6">
+            {listings &&
+              listings.map((listing) => (
+                <ListingItem
+                  key={listing.id}
+                  id={listing.id}
+                  listing={listing.data}
+                />
+              ))}
+          </ul>
+        </>
       </div>
     </>
   );
