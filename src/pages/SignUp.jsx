@@ -7,7 +7,7 @@ import {getAuth, createUserWithEmailAndPassword, updateProfile} from 'firebase/a
 import {db} from '../firebase'
 // import in order submit user data from sign up to Firebase authentication & database 
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function SignUp() {
@@ -20,7 +20,7 @@ export default function SignUp() {
     password: "",
   });
   const { name, email, password } = isFormData;
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   const handleOnChangeSignIn = (event) => {
     setIsFormData((prevState) => ({
@@ -31,21 +31,16 @@ export default function SignUp() {
   // creating a function for sign up form data
  async function onSubmitSignUp(event) {
     event.preventDefault();
-  //  handle a empty input field
-    // if(!name || !email || !password){
-    //   toast.error('Please fill in all the required fields.')
-    //   return
-
-    // }
+ 
    // Creating user Firebase Default Authentication Method
     try {
       const auth = getAuth()
       const userCredentials = await createUserWithEmailAndPassword(auth,email, password)
-      const user = userCredentials.user
+     
 
       // creating a method that updates the profile by add name
       updateProfile(auth.currentUser, {displayName: name})
-      
+       const user = userCredentials.user;
 
       // create a method that would delete the password from Firebase Authentication 
       const formDataCopy = {...isFormData}
@@ -55,8 +50,8 @@ export default function SignUp() {
       // creating a method that would save the user's password to database
       await setDoc(doc(db, 'users', user.uid), formDataCopy)
       // creating a method that would navigate user to home after successful signup
-      toast.success('Account Successfully Registered',{position: 'top-center'})
-      navigate('/')
+      // toast.success('Account Successfully Registered',{position: 'top-center'})
+      // navigate('/')
       
     } catch (error) {
       

@@ -10,6 +10,7 @@ export function useAuthStatu() {
 //    create useEffect function to ask the firebase if the user is authenticated or not
     useEffect(() =>{
         const auth = getAuth();
+        console.log(auth);
         // create a firebase method (onAuthStateChanged) to check true or false
         onAuthStateChanged(auth, (user)=>{
             // If the user is authenticated then set the login to be true

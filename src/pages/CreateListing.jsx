@@ -129,7 +129,7 @@ export default function CreateListing() {
     rejected====> if the file rejected
     */
     async function storeImage(image) {
-      return new Promise(async (resolve, reject) => {
+      return new Promise((resolve, reject) => {
         /* create a variable for storage, filename, storage Reference
         using uuid packakge to generate a unique number for each image incase same image was uploaded twice
          */
@@ -165,14 +165,11 @@ export default function CreateListing() {
             // For instance, get the download URL: https://firebasestorage.googleapis.com/...
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
               resolve(downloadURL);
-
-              
             });
           }
         );
       });
       // create copy of the FormData to be sent to the server
-     
     }
     /* Step 1 create a method to store the image/file uploaded in the storage
    using await promise.all() to look through all the image and put them/store inside storeImage
@@ -182,23 +179,25 @@ export default function CreateListing() {
     ).catch((error) => {
       setIsLoading(false);
       toast.error("Images not uploaded");
+      return;
     });
-    console.log(imgUrls);
+    
     const copyFormData = {
       ...formData,
       imgUrls,
-      // geolocation,
       timeStamp: serverTimestamp(),
+      userRef: auth.currentUser.uid,
+      // geolocation,
     };
     delete copyFormData.images;
     !copyFormData.offer && delete copyFormData.discountedPrice;
+    // delete latitude;
+    // delete longitude;
     // create a method from firebase to sent the copy to fire database
     const docRef = await addDoc(collection(db, "listings"), copyFormData);
     setIsLoading(false);
     toast.success("Listing created successfully");
     navigate(`/category/${copyFormData.type}/${docRef.id}`);
-   
-    
   }
 
   // create a condition for loading the page

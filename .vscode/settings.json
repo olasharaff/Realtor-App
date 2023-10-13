@@ -4,5 +4,6 @@
         "Statu",
         "toastify",
         "uuidv"
-    ]
+    ],
+    "git.ignoreLimitWarning": true
 }
