@@ -1,6 +1,5 @@
 import React from 'react'
 import  spinner  from '../assets/svg/spinner.svg'
-console.log(spinner)
 
 export default function Spinner()  {
     return (

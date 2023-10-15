@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Spinner from "../components/Spinner";
 import { toast } from "react-toastify";
 import { getAuth } from "firebase/auth";
@@ -11,17 +11,19 @@ import {
 } from "firebase/storage";
 // import uuid for generating unique credentials or number & letter
 import { v4 as uuidv4 } from "uuid";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {  getDoc, serverTimestamp , doc, updateDoc} from "firebase/firestore";
 import { db } from "../firebase";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
-export default function CreateListing() {
+export default function EditListing() {
   const navigate = useNavigate();
   const auth = getAuth();
   // create a hook for geolocation of the address
   const [geoLocationEnabled, setGeoLocationEnabled] = useState(false);
   // create a hook for loading the page after submission of the form
   const [isLoading, setIsLoading] = useState(false);
+  // create a hook for updating the listing detail after submission of the form
+  const [isListing, setIsListing] = useState(null);
   // create a hook to define type of data
   const [formData, setFormData] = useState({
     type: "rent",
@@ -56,6 +58,37 @@ export default function CreateListing() {
     longitude,
     images,
   } = formData;
+
+  const params = useParams();
+
+  //   create a hook useEffect for for fetching the listing item to the edit the listing item
+  useEffect(() => {
+    setIsLoading(true);
+    async function fetchListing() {
+      // create a reference or address for get listing ID
+      const docRef = doc(db, "listings", params.listingId);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setIsListing(docSnap.data());
+        // then update the formdata with the new details
+        setFormData({ ...docSnap.data() });
+        setIsLoading(false);
+      } else {
+        navigate("/");
+        toast.error("listing does not exist");
+      }
+    }
+    fetchListing();
+  }, [navigate, params.listingId]);
+
+//   create a hook useEffect method to only authorize the registered user to edit his own listing item
+
+useEffect(() => {
+  if (isListing && isListing.userRef !== auth.currentUser.uid) {
+    toast.error("You can't edit this listing\n Kindly login to your account");
+    navigate("/");
+  }
+}, [auth.currentUser.uid, navigate, isListing]);
 
   // create a function for handling change events btw sell or Rent
   function onChangeSEllRent(e) {
@@ -130,54 +163,54 @@ export default function CreateListing() {
     */
     async function storeImage(image) {
       try {
-      const downloadURL =   new Promise((resolve, reject) => {
-           /* create a variable for storage, filename, storage Reference
+        const downloadURL = new Promise((resolve, reject) => {
+          /* create a variable for storage, filename, storage Reference
         using uuid packakge to generate a unique number for each image incase same image was uploaded twice
          */
-           const storage = getStorage();
-           const filename = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
-           const storageRef = ref(storage, filename);
-           // using the image name from the function storeImage(image)
-           const uploadTask = uploadBytesResumable(storageRef, image);
+          const storage = getStorage();
+          const filename = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
+          const storageRef = ref(storage, filename);
+          // using the image name from the function storeImage(image)
+          const uploadTask = uploadBytesResumable(storageRef, image);
 
-           uploadTask.on(
-             "state_changed",
-             (snapshot) => {
-               // Observe state change events such as progress, pause, and resume
-               // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-               const progress =
-                 (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-               console.log("Upload is " + progress + "% done");
-               switch (snapshot.state) {
-                 case "paused":
-                   console.log("Upload is paused");
-                   break;
-                 case "running":
-                   console.log("Upload is running");
-                   break;
-               }
-             },
-             (error) => {
-               // Handle unsuccessful uploads
-               console.error("Error uploading image:", error);
-               reject(error);
-             },
-             () => {
-               // Handle successful uploads on complete
-               // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-               getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              // Observe state change events such as progress, pause, and resume
+              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log("Upload is " + progress + "% done");
+              switch (snapshot.state) {
+                case "paused":
+                  console.log("Upload is paused");
+                  break;
+                case "running":
+                  console.log("Upload is running");
+                  break;
+              }
+            },
+            (error) => {
+              // Handle unsuccessful uploads
+              console.error("Error uploading image:", error);
+              reject(error);
+            },
+            () => {
+              // Handle successful uploads on complete
+              // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+              getDownloadURL(uploadTask.snapshot.ref).then((url) => {
                 //  console.log("Download URL:", url);
-                 resolve(url);
-               });
-             }
-           );
-         });
-         return downloadURL;
+                resolve(url);
+              });
+            }
+          );
+        });
+        return downloadURL;
       } catch (error) {
-         console.error("Error storing image:", error);
-         throw error;
+        console.error("Error storing image:", error);
+        throw error;
       }
-      
+
       // create copy of the FormData to be sent to the server
     }
     /* Step 1 create a method to store the image/file uploaded in the storage
@@ -203,10 +236,12 @@ export default function CreateListing() {
     !copyFormData.offer && delete copyFormData.discountedPrice;
     // delete latitude;
     // delete longitude;
-    // create a method from firebase to sent the copy to fire database
-    const docRef = await addDoc(collection(db, "listings"), copyFormData);
+    // create a method from firebase to update the listing item  
+
+    const docRef = doc(db, "listings", params.listingId)
+    await updateDoc(docRef, copyFormData);
     setIsLoading(false);
-    toast.success("Listing created successfully");
+    toast.success("Listing Edited ");
     navigate(`/category/${copyFormData.type}/${docRef.id}`);
   }
 
@@ -216,7 +251,7 @@ export default function CreateListing() {
   }
   return (
     <main className="max-w-md mx-auto px-4">
-      <h1 className="text-3xl font-bold text-center my-4">Create a Listing</h1>
+      <h1 className="text-3xl font-bold text-center my-4">Edit Listing</h1>
       <form onSubmit={onSubmitSellRent}>
         <p className="text-lg mt-3 font-medium">Sell / Rent</p>
         <div className="flex">
@@ -485,7 +520,7 @@ export default function CreateListing() {
           type="submit"
           className="w-full px-7 py-2 rounded bg-blue-600 text-white font-medium text-sm uppercase shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:bg-blue-700 active:shadow-lg active:bg-blue-800 transition duration ease-in-out"
         >
-          Create Listing
+          Edit Listing
         </button>
       </form>
     </main>

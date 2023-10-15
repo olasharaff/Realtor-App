@@ -2,6 +2,7 @@ import { getAuth, updateProfile } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import {
   collection,
+  deleteDoc,
   doc,
   getDocs,
   orderBy,
@@ -19,7 +20,7 @@ export default function Profile() {
   const navigate = useNavigate();
   const auth = getAuth();
   // create a hook to fetch the data from the listings function and set loading
-  const [listings, setListings] = useState(null);
+  const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // create a hook for changing profile details
@@ -57,11 +58,10 @@ export default function Profile() {
         // create a method to update the name in the firestore by crating a reference
         const docRef = doc(db, "users", auth.currentUser.uid);
         await updateDoc(docRef, { name });
-
         toast.success("Profile details updated");
       }
     } catch (error) {
-      toast.error(`Could not update your profile ${error.message}`);
+      toast.error("Could not update your profile");
     }
   }
 
@@ -75,7 +75,10 @@ export default function Profile() {
       /* create variable query to get the user that created listing in their profile using userRef(unique id) 
       and sort it by using firebase methods ORDER BY and make it descending (desc)
       */
-      const q = query(listingRef, where("userRef", "==", auth.currentUser.uid));
+      const q = query(
+        listingRef,
+        where("userRef", "==", auth.currentUser.uid),orderBy('timeStamp', 'desc')
+      );
       // create a method to get the document using snapshot
       const querySnap = await getDocs(q);
       // create empty listings variable to loop through the querySnap using forEach method and add the date to the listings variable
@@ -83,18 +86,34 @@ export default function Profile() {
       querySnap.forEach((doc) => {
         // push each document inside arrays, and get the id, data coming from doc id, doc data
         return listings.push({
-          i: doc.id,
+          id: doc.id,
           data: doc.data(),
         });
       });
       setListings(listings);
       setLoading(false);
-      toast.success("Listing successfully added");
     }
 
     // call async function
     fetchUserListings();
   }, [auth.currentUser.uid]);
+
+  // create a function for deleting the listing item
+  async function onDelete(listingID) {
+    if(window.confirm('Are you sure you want to delete')){
+      // use method from firebase doc to delete the listing
+        await deleteDoc(doc(db, 'listings', listingID));
+        const updateListings = listings.filter((listing) => listing.id !==listingID)
+        setListings(updateListings);
+        toast.success('Deleted Successfully');
+    }
+ 
+
+  }
+  // create a function for editing the listing item details
+  function onEdit(listingID) {
+    navigate(`/edit-listing/${listingID}`);
+  }
 
   return (
     <>
@@ -161,20 +180,26 @@ export default function Profile() {
       <div className="max-w-6xl mt-6 px-4 mx-auto">
         {/* The loading is true, but 
         create a condition if the loading is false because when it true it fetch the data */}
-
-        <>
-          <h2 className="text-lg text-center font-medium mb-6">My Listing</h2>
-          <ul className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mt-6 mb-6">
-            {listings &&
-              listings.map((listing) => (
-                <ListingItem
-                  key={listing.id}
-                  id={listing.id}
-                  listing={listing.data}
-                />
-              ))}
-          </ul>
-        </>
+        {listings !== null &&  listings.length > 0 &&(
+              <>
+                <h2 className="text-lg text-center font-medium mb-6">
+                  My Listing
+                </h2>
+                <ul className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mt-6 mb-6">
+                  {listings.map((listing, id,) => (
+                    <div key={id}>
+                      <ListingItem
+                        key={listing.id}
+                        id={listing.id}
+                        listing={listing.data}
+                        onDelete={() => onDelete(listing.id)}
+                        onEdit={() => onEdit(listing.id)}
+                      />
+                    </div>
+                  ))}
+                </ul>
+              </>
+            )}
       </div>
     </>
   );
