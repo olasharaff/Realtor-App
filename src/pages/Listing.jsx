@@ -12,14 +12,14 @@ import {
  
 } from "swiper/modules";
 import  SwiperCore from "swiper/core";
-
-
 import "swiper/css/bundle";
-// import 'swiper/css'
+import {FaShare} from 'react-icons/fa'
 
 export default function Listing() {
+const [shareLinkCopy, setShareLinkCopy] = useState(false)
   const [isListing, setIsListing] = useState(null);
   const [loading, setLoading] = useState(true);
+
   // use useParams to fetch the listingID
   const params = useParams();
   // create a method for swiper
@@ -65,6 +65,18 @@ export default function Listing() {
           </SwiperSlide>
         ))}
       </Swiper>
+      <div className="fixed top-[13%] right-[3%] z-20 bg-white rounded-full w-12 h-12 flex justify-center items-center cursor-pointer">
+        <FaShare className="text-lg text-slate-500" onClick={()=> {
+          navigator.clipboard.writeText(window.location.href);
+          setShareLinkCopy(true);
+          setTimeout(()=>{
+            setShareLinkCopy(false);
+          }, 2000)
+        }}/>
+      </div>
+      {shareLinkCopy && (
+        <p className="fixed top-[22%] right-[2%] z-40 text-[14px] bg-white text-slate-500 px-1 py-1 rounded-md p-2 border-2 border-gray-400">Link copied</p>
+      )}
     </main>
   );
 }

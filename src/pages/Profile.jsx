@@ -15,6 +15,7 @@ import { db } from "../firebase";
 import { FcHome } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import ListingItem from "../components/ListingItem";
+import Spinner from "../components/Spinner";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -114,7 +115,9 @@ export default function Profile() {
   function onEdit(listingID) {
     navigate(`/edit-listing/${listingID}`);
   }
-
+  if (loading){
+    return <Spinner/>
+  }
   return (
     <>
       <section className="flex items-center justify-center flex-col mx-auto max-w-6xl px-4">
