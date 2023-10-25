@@ -4,19 +4,13 @@ import { useParams } from "react-router-dom";
 import { db } from "../firebase";
 import Spinner from "../components/Spinner";
 import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  EffectFade,
-  Autoplay,
-  Navigation,
-  Pagination,
- 
-} from "swiper/modules";
-import  SwiperCore from "swiper/core";
+import { EffectFade, Autoplay, Navigation, Pagination } from "swiper/modules";
+import SwiperCore from "swiper/core";
 import "swiper/css/bundle";
-import {FaShare} from 'react-icons/fa'
+import { FaShare, FaMapMarkerAlt, FaBed, FaBath, FaParking, FaChair } from "react-icons/fa";
 
 export default function Listing() {
-const [shareLinkCopy, setShareLinkCopy] = useState(false)
+  const [shareLinkCopy, setShareLinkCopy] = useState(false);
   const [isListing, setIsListing] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -34,7 +28,6 @@ const [shareLinkCopy, setShareLinkCopy] = useState(false)
       if (docSnap.exists()) {
         setIsListing(docSnap.data());
         setLoading(false);
-       
       }
     }
 
@@ -66,17 +59,80 @@ const [shareLinkCopy, setShareLinkCopy] = useState(false)
         ))}
       </Swiper>
       <div className="fixed top-[13%] right-[3%] z-20 bg-white rounded-full w-12 h-12 flex justify-center items-center cursor-pointer">
-        <FaShare className="text-lg text-slate-500" onClick={()=> {
-          navigator.clipboard.writeText(window.location.href);
-          setShareLinkCopy(true);
-          setTimeout(()=>{
-            setShareLinkCopy(false);
-          }, 2000)
-        }}/>
+        <FaShare
+          className="text-lg text-slate-500"
+          onClick={() => {
+            navigator.clipboard.writeText(window.location.href);
+            setShareLinkCopy(true);
+            setTimeout(() => {
+              setShareLinkCopy(false);
+            }, 2000);
+          }}
+        />
       </div>
       {shareLinkCopy && (
-        <p className="fixed top-[22%] right-[2%] z-40 text-[14px] bg-white text-slate-500 px-1 py-1 rounded-md p-2 border-2 border-gray-400">Link copied</p>
+        <p className="fixed top-[22%] right-[2%] z-40 text-[14px] bg-white text-slate-500 px-1 py-1 rounded-md p-2 border-2 border-gray-400">
+          Link copied
+        </p>
       )}
+      <div className="flex m-4 flex-col md:flex-row lg:mx-auto max-w-6xl justify-center items-center p-4 rounded-lg border-3 shadow-lg bg-white lg:space-x-6">
+        <div className=" w-full h-[200px] lg:h-[400px]">
+          <p className="text-2xl font-bold mb-3 text-blue-900">
+            {isListing.name} - ${" "}
+            {isListing.offer
+              ? isListing.discountedPrice
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              : isListing.regularPrice
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
+            {isListing.type === "rent" ? "/ month" : ""}
+          </p>
+          <p className="flex items-center mt-6 mb-3 font-semibold">
+            <FaMapMarkerAlt className="text-green-700 mr-1 " />{" "}
+            {isListing.address}
+          </p>
+          <div className="flex justify-start items-center space-x-4 w-[75%]">
+            <p className="bg-red-800 w-full max-w-[200px] rounded-md p-1 text-center text-white font-semibold shadow-md">
+              {isListing.type === "rent" ? "Rent" : "Sale"}
+            </p>
+            {isListing.offer && (
+              <p className="w-full max-w-[200px] bg-green-800 rounded-md p-1 text-white text-center font-semibold shadow-md">
+                ${+isListing.regularPrice - +isListing.discountedPrice} discount
+              </p>
+            )}
+          </div>
+          <p className="my-3  ">
+            <span className="font-semibold">Description</span>{" "}
+            {isListing.description}
+          </p>
+          <ul className="flex items-center space-x-3 sm:space-x-8 font-semibold text-sm">
+            <li className="flex whitespace-nowrap items-center">
+              <FaBed className="mr-1 text-lg" />{" "}
+              {+isListing.bedrooms > 1 ? `${isListing.bedrooms} Beds` : "1 Bed"}
+            </li>
+            <li className="flex whitespace-nowrap items-center">
+              <FaBath className="mr-1 text-lg" />
+              {isListing.bathrooms > 1
+                ? `${isListing.bathrooms} Bath`
+                : "1 Bath"}
+            </li>
+            <li className="flex whitespace-nowrap items-center">
+              <FaParking className="mr-1 text-lg" />
+              {isListing.parking
+                ? 'Parking spot'
+                : "No parking"}
+            </li>
+            <li className="flex whitespace-nowrap items-center">
+              <FaChair className="mr-1 text-lg" />ß
+              {isListing.furnished
+                ? "Furnished"
+                : "Not Furnished"}˝
+            </li>
+          </ul>
+        </div>
+        <div className="bg-blue-300 w-full h-[200px] lg:h-[400px] overflow-x-hidden z-10"></div>
+      </div>
     </main>
   );
 }

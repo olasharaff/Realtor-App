@@ -37,10 +37,10 @@ export default function ListingItem({ listing, id, onDelete, onEdit}) {
             {listing.offer
               ? listing.discountedPrice
                   .toString()
-                  .replace(/\B(7=(\d{3})+ (?!\d))/g, ",")
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               : listing.regularPrice
                   .toString()
-                  .replace(/\B(7=(\d{3})+ (?!\d))/g, ",")}
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
             {listing.type === "rent" && " / month"}
           </p>
           <div className="flex items-center mt-[10px] space-x-3">
