@@ -7,9 +7,21 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectFade, Autoplay, Navigation, Pagination } from "swiper/modules";
 import SwiperCore from "swiper/core";
 import "swiper/css/bundle";
-import { FaShare, FaMapMarkerAlt, FaBed, FaBath, FaParking, FaChair } from "react-icons/fa";
+import {
+  FaShare,
+  FaMapMarkerAlt,
+  FaBed,
+  FaBath,
+  FaParking,
+  FaChair,
+} from "react-icons/fa";
+import {getAuth} from 'firebase/auth';
+import ContactLandlord from "../components/ContactLandlord";
 
 export default function Listing() {
+  // create a hook method for the contact landlord button
+  const [isContactLandlord, setIsContactLandlord] = useState(false)
+  const auth = getAuth()
   const [shareLinkCopy, setShareLinkCopy] = useState(false);
   const [isListing, setIsListing] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -75,8 +87,8 @@ export default function Listing() {
           Link copied
         </p>
       )}
-      <div className="flex m-4 flex-col md:flex-row lg:mx-auto max-w-6xl justify-center items-center p-4 rounded-lg border-3 shadow-lg bg-white lg:space-x-6">
-        <div className=" w-full h-[200px] lg:h-[400px]">
+      <div className="flex m-4 flex-col md:flex-row lg:mx-auto max-w-6xl justify-center p-4 rounded-lg border-3 shadow-lg bg-white lg:space-x-6">
+        <div className=" w-full">
           <p className="text-2xl font-bold mb-3 text-blue-900">
             {isListing.name} - ${" "}
             {isListing.offer
@@ -106,7 +118,7 @@ export default function Listing() {
             <span className="font-semibold">Description</span>{" "}
             {isListing.description}
           </p>
-          <ul className="flex items-center space-x-3 sm:space-x-8 font-semibold text-sm">
+          <ul className="flex items-center space-x-3 sm:space-x-8 font-semibold text-sm mb-6">
             <li className="flex whitespace-nowrap items-center">
               <FaBed className="mr-1 text-lg" />{" "}
               {+isListing.bedrooms > 1 ? `${isListing.bedrooms} Beds` : "1 Bed"}
@@ -119,17 +131,27 @@ export default function Listing() {
             </li>
             <li className="flex whitespace-nowrap items-center">
               <FaParking className="mr-1 text-lg" />
-              {isListing.parking
-                ? 'Parking spot'
-                : "No parking"}
+              {isListing.parking ? "Parking spot" : "No parking"}
             </li>
             <li className="flex whitespace-nowrap items-center">
-              <FaChair className="mr-1 text-lg" />ß
-              {isListing.furnished
-                ? "Furnished"
-                : "Not Furnished"}˝
+              <FaChair className="mr-1 text-lg" />
+              {isListing.furnished ? "Furnished" : "Not Furnished"}
             </li>
           </ul>
+          {/* create a condition that only visitor could contact the landlord and create another condition if the button is clicked it should be disappeared */}
+          {isListing.userRef !== auth.currentUser?.uid && !isContactLandlord && (
+            <div className="mt-6 ">
+              <button onClick={(() => setIsContactLandlord(true))} className="px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg w-full transition duration-200 ease-in-out">
+                Contact Landlord
+              </button>
+            </div>
+          )}
+          {isContactLandlord && (
+            <ContactLandlord 
+              userRef={isListing.userRef}
+              isListing={isListing}
+            />
+          )}
         </div>
         <div className="bg-blue-300 w-full h-[200px] lg:h-[400px] overflow-x-hidden z-10"></div>
       </div>
