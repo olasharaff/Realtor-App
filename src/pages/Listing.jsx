@@ -17,6 +17,7 @@ import {
 } from "react-icons/fa";
 import {getAuth} from 'firebase/auth';
 import ContactLandlord from "../components/ContactLandlord";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
 export default function Listing() {
   // create a hook method for the contact landlord button
@@ -139,21 +140,44 @@ export default function Listing() {
             </li>
           </ul>
           {/* create a condition that only visitor could contact the landlord and create another condition if the button is clicked it should be disappeared */}
-          {isListing.userRef !== auth.currentUser?.uid && !isContactLandlord && (
-            <div className="mt-6 ">
-              <button onClick={(() => setIsContactLandlord(true))} className="px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg w-full transition duration-200 ease-in-out">
-                Contact Landlord
-              </button>
-            </div>
-          )}
+          {isListing.userRef !== auth.currentUser?.uid &&
+            !isContactLandlord && (
+              <div className="mt-6 ">
+                <button
+                  onClick={() => setIsContactLandlord(true)}
+                  className="px-7 py-3 bg-blue-600 text-white font-medium text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg w-full transition duration-200 ease-in-out"
+                >
+                  Contact Landlord
+                </button>
+              </div>
+            )}
           {isContactLandlord && (
-            <ContactLandlord 
+            <ContactLandlord
               userRef={isListing.userRef}
               isListing={isListing}
             />
           )}
         </div>
-        <div className="bg-blue-300 w-full h-[200px] lg:h-[400px] overflow-x-hidden z-10"></div>
+        <div className="w-full h-[200px] md:h-[400px] overflow-x-hidden z-10 mt-5 md:mt-0 md:ml-2 ">
+          <MapContainer
+            // center={[isListing.geolocation.lat, isListing.geolocation.lng]}
+            zoom={13}
+            scrollWheelZoom={false}
+            style={{height: '100%', width: '100%'}}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <Marker
+              // position={[isListing.geolocation.lat, isListing.geolocation.lng]}
+            >
+              <Popup>
+                A pretty CSS3 popup. <br /> Easily customizable.
+              </Popup>
+            </Marker>
+          </MapContainer>
+        </div>
       </div>
     </main>
   );
