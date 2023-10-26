@@ -26,7 +26,6 @@ export default function Slider() {
                 })
             })
             setIsListing(listings)
-            console.log(listings)
             setIsLoading(false)
         }
         getListing()

@@ -61,10 +61,10 @@ export default function CreateListing() {
   function onChangeSEllRent(e) {
     // create a variable called boolean and to be null based on the value we checked if our input is true or false and change a function in form data
     let boolean = null;
-    if (e.target.value === "true") {
+    if (e.target.value === 'true') {
       boolean = true;
     }
-    if (e.target.value === "false") {
+    if (e.target.value === 'false') {
       boolean = false;
     }
     // for file upload

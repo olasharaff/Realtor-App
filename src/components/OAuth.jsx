@@ -35,7 +35,7 @@ export default function OAuth() {
           // photo: user.photoURL,
           timestamp: serverTimestamp()
         })
-        navigate('/')
+        navigate('/profile')
         toast.success('Congratulations, you have successfully registered')
       }
 

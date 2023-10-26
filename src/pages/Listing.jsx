@@ -127,7 +127,7 @@ export default function Listing() {
             <li className="flex whitespace-nowrap items-center">
               <FaBath className="mr-1 text-lg" />
               {isListing.bathrooms > 1
-                ? `${isListing.bathrooms} Bath`
+                ? `${isListing.bathrooms} Baths`
                 : "1 Bath"}
             </li>
             <li className="flex whitespace-nowrap items-center">
