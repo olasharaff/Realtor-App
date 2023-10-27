@@ -13,6 +13,7 @@ import CreateListing from "./pages/CreateListing";
 import EditListing from "./pages/EditListing";
 import Listing from "./pages/Listing";
 import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
+import Category from "./pages/Category";
 
 
 
@@ -30,6 +31,7 @@ function App() {
             </Route>
 
             <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/category/:categoryName" element={<Category />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/forget-password" element={<ForgetPassword />} />
             {/*create a listing route for a only authenticated and signed in user */}
