@@ -14,6 +14,8 @@ import EditListing from "./pages/EditListing";
 import Listing from "./pages/Listing";
 import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
 import Category from "./pages/Category";
+import Footer from "./components/Footer";
+import Sell from "./pages/Sell";
 
 
 
@@ -31,6 +33,7 @@ function App() {
             </Route>
 
             <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/sell" element={<Sell />} />
             <Route path="/category/:categoryName" element={<Category />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/forget-password" element={<ForgetPassword />} />
@@ -52,6 +55,7 @@ function App() {
               />
             </Route>
           </Routes>
+          <Footer />
         </Router>
 
         <ToastContainer

@@ -5,6 +5,7 @@ import { db } from '../firebase';
 import { orderBy } from 'lodash';
 import { Link } from 'react-router-dom';
 import ListingItem from '../components/ListingItem';
+import Discover from '../components/Discover';
 
 
 export default function Home() {
@@ -113,14 +114,14 @@ export default function Home() {
   return (
     <>
       <Slider />
-      <div className="max-w-6xl mx-auto my-8 px-2 space-y-6">
+      <div className="max-w-6xl mx-auto px-2 space-y-6">
         {/* create a condition to check if the isOfferListing exist and greater than 0 */}
         {isOfferListing && isOfferListing.length > 0 && (
           <div className="m-2 mb-6">
-            <h1 className="px-3 text-2xl mt-6 font-semibold">Recent Offers</h1>
+            <h1 className="px-3 text-2xl mt-6 font-bold">Recent Offers</h1>
             <Link to="/offer">
-              <p className="px-3 text-sm text-blue-600 hover:text-blue-800 transition duration-150 ease-in-out cursor-pointer">
-                show more offer
+              <p className="px-3 text-sm text-gray-700 font-[450] hover:text-gray-800 transition duration-150 ease-in-out cursor-pointer">
+                Show more offer...
               </p>
             </Link>
             <ul className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
@@ -138,12 +139,10 @@ export default function Home() {
         {/* create a condition to check if the isRentListings exist and greater than 0 */}
         {isRentListings && isRentListings.length > 0 && (
           <div className="m-2 mb-6">
-            <h2 className="px-3 text-2xl mt-6 font-semibold">
-              Places for rent
-            </h2>
+            <h2 className="px-3 text-2xl mt-6 font-bold">Places for rent</h2>
             <Link to="/category/rent">
-              <p className="px-3 text-sm text-blue-600 hover:text-blue-800 transition duration-150 ease-in-out cursor-pointer">
-                Show more places for rent
+              <p className="px-3 text-sm text-gray-600 font-[450] hover:text-gray-800 transition duration-150 ease-in-out cursor-pointer">
+                Show more places for rent...
               </p>
             </Link>
             <ul className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
@@ -160,12 +159,10 @@ export default function Home() {
         {/* create a condition to check if the isSaleListings exist and greater than 0 */}
         {isSaleListings && isSaleListings.length > 0 && (
           <div className="m-2 mb-6">
-            <h2 className="px-3 text-2xl mt-6 font-semibold">
-              Places for sale
-            </h2>
+            <h2 className="px-3 text-2xl mt-6 font-bold">Places for sale</h2>
             <Link to="/category/sale">
-              <p className="px-3 text-sm text-blue-600 hover:text-blue-800 transition duration-150 ease-in-out cursor-pointer">
-                Show more places for sale
+              <p className="px-3 text-sm font-[450] text-gray-600 hover:text-gray-800 transition duration-150 ease-in-out cursor-pointer">
+                Show more places for sale...
               </p>
             </Link>
             <ul className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
@@ -180,6 +177,7 @@ export default function Home() {
           </div>
         )}
       </div>
+      <Discover/>
     </>
   );
 }

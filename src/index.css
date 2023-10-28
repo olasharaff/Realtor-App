@@ -2,16 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'Trebuchet MS';
+    line-height: 32px;
+    letter-spacing: 0.48px;
+    font-weight: 700;
+    text-align: inherit;
+    color: red;
+    src: local('Trebuchet MS'), url('../public/font/trebuc.woff') format('woff');
+}
+
+@import url('https://fonts.cdnfonts.com/css/galano-grotesque-alt');
+
+
 body{
-    background-color: hwb(160 77% 6%);
+   
+    font-family: 'Galano Grotesque Alt', 'Trebuchet MS', sans-serif;
 }
 
 .swiper-button-next:after, .swiper-button-prev:after{
     color: #a8dadc;
+    
 }
 
 .swiper-pagination-progressbar .swiper-pagination-progressbar-fill{
-    background-color: #a8dadc !important;
+    background-color: #fff !important;
 }
 
 html::-webkit-scrollbar {
@@ -21,3 +36,5 @@ html::-webkit-scrollbar {
 html {
     scrollbar-width: none;
 }
+  
+
