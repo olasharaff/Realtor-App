@@ -35,7 +35,7 @@ export default function Home() {
           });
         });
         setIsOfferListing(listings);
-        console.log(listings);
+      
       } catch (error) {
         console.log("there is something wrong with the request", error);
       }
@@ -69,7 +69,7 @@ export default function Home() {
           });
         });
         setIsRentListings(listings);
-        console.log(listings);
+       
       } catch (error) {
         console.log("renting error: " + error);
       }
@@ -103,7 +103,7 @@ export default function Home() {
           });
         });
         setIsSaleListings(listings);
-        console.log(listings);
+       
       } catch (error) {
         console.log("renting error: " + error);
       }

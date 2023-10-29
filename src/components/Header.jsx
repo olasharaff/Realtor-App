@@ -38,7 +38,7 @@ onAuthStateChanged(auth, (user) =>{
     }
 
     return (
-      <div className="bg-white pt-1 border-b shadow-sm sticky z-40 top-0">
+      <div className="bg-white pt-1 border-b shadow-sm sticky z-50 top-0">
         <header className="flex justify-between items-center max-w-7xl mx-auto px-4">
           <div className="flex items-center jus">
             <img
