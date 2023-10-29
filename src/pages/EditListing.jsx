@@ -19,7 +19,7 @@ export default function EditListing() {
   const navigate = useNavigate();
   const auth = getAuth();
   // create a hook for geolocation of the address
-  const [geoLocationEnabled, setGeoLocationEnabled] = useState(false);
+  const [geoLocationEnabled,] = useState(false);
   // create a hook for loading the page after submission of the form
   const [isLoading, setIsLoading] = useState(false);
   // create a hook for updating the listing detail after submission of the form
@@ -188,6 +188,9 @@ useEffect(() => {
                 case "running":
                   console.log("Upload is running");
                   break;
+                  default:
+                     console.log("Unexpected upload state:", snapshot.state);
+                    break;
               }
             },
             (error) => {
