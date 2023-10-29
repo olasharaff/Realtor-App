@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { SellerGuide, SellsCollection } from "../datas/SellData";
 import { Link } from "react-router-dom";
 import sell from "../assets/svg/sell1.webp";
-import * as Fa from "react-icons/fa";
 import {MdKeyboardArrowDown} from 'react-icons/md'
+import Search from "../components/subcomponents/Search";
 
 export default function Sell() {
   const [activeItem, setActiveItem] = useState(0);
@@ -11,14 +11,7 @@ export default function Sell() {
   const handleActiveClick = (index) => {
     setActiveItem(index);
   };
-  const items = [
-    "Buy",
-    "Rent",
-    "Sell",
-    "Pre-Approval",
-    "Just Sold",
-    "Home Value",
-  ];
+  
   const items2 = ["Connect with a lender", "Latest home quality rates"];
   return (
     <>
@@ -42,31 +35,8 @@ export default function Sell() {
                   finds the best to compete for you!
                 </h2>
               </div>
-              <div>
-                <ul className="flex font-medium text-white mt-7 mb-7 gap-6">
-                  {items.map((item, index) => (
-                    <li
-                      key={index}
-                      className={`cursor-pointer hover:border-b-4 pb-2  ${
-                        activeItem === index ? "border-b-4 border-white" : ""
-                      } hover:border-white transition duration-200 ease-in-out`}
-                      onClick={() => handleActiveClick(index)}
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="relative">
-                <input
-                  text=""
-                  placeholder=""
-                  className="w-[520px] text-gray-600 focus:border-none hover:border-none active:border-none rounded-3xl px-3 py-3 hover:bg-black hover:text-white"
-                />
-                <span className="bg-gray-600 py-3 px-3 flex justify-center items-center w-11 rounded-full absolute top-1 right-2 hover:bg-white hover:text-black">
-                  <Fa.FaSearch className="text-white hover:text-black" />
-                </span>
-              </div>
+                <Search/>
+             
             </div>
           </div>
         </div>
@@ -115,7 +85,7 @@ export default function Sell() {
       </div>
       {/* SECTION 4 */}
 
-      <div className="flex max-w-7xl px-3 py-3 mx-6  gap-6 border mb-12 mt-6 border-gray-300 rounded-md gap-4">
+      <div className="flex max-w-7xl px-3 py-3 mx-6  gap-6 border mb-12 mt-6 border-gray-300 rounded-md ">
         <div>
           <img
             src="https://static.rdc.moveaws.com/images/finance/illustration/home-equity-or-refinance-house.svg"

@@ -16,6 +16,7 @@ import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
 import Category from "./pages/Category";
 import Footer from "./components/Footer";
 import Sell from "./pages/Sell";
+import Rent from "./pages/Rent";
 
 
 
@@ -31,9 +32,9 @@ function App() {
             <Route path="/profile" element={<PrivateRoute />}>
               <Route path="/profile" element={<Profile />} />
             </Route>
-
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sell" element={<Sell />} />
+            <Route path="/rent" element={<Rent />} />
             <Route path="/category/:categoryName" element={<Category />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/forget-password" element={<ForgetPassword />} />

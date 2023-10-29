@@ -1,8 +1,17 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
+import Navitems from '../datas/NavData'
+import { Link } from 'react-router-dom';
 
 export default function Header() {
+  const [activeContent, setActiveContent] = useState(0)
+
+  const handleActiveNavBar = (index) =>{
+    setActiveContent(index)
+  }
+  
+  
     // create a hook for changing sign-in to profile when logged in 
     const [isPage, isSetPage] = useState('Sign In')
     const auth = getAuth()
@@ -30,8 +39,8 @@ onAuthStateChanged(auth, (user) =>{
 
     return (
       <div className="bg-white pt-1 border-b shadow-sm sticky z-40 top-0">
-        <header className="flex justify-between max-w-6xl mx-auto px-4">
-          <div>
+        <header className="flex justify-between items-center max-w-7xl mx-auto px-4">
+          <div className="flex items-center jus">
             <img
               src="https://static.rdc.moveaws.com/images/logos/rdc-logo-default.svg"
               alt="Nav-logo"
@@ -40,17 +49,23 @@ onAuthStateChanged(auth, (user) =>{
             />
           </div>
           <div>
-            <ul className="flex space-x-10 ">
-              <li
-                className={` cursor-pointer py-3 text-sm font-medium text-black border-b-2 ${
-                  pathMatchesRoute("/")
-                    ? "text-gray-500 border-b-black cursor-pointer"
-                    : "border-transparent"
-                }`}
-                onClick={() => navigate("/")}
-              >
-                Home
-              </li>
+            <ul className="flex justify-center items-center gap-7 text-sm pt-4">
+              {Navitems.map((items, index) => (
+                <li
+                  key={index}
+                  className={`font-medium pb-4 hover:border-b-2 hover:border-black ${
+                    activeContent === index ? "border-b-2 border-black" : ""
+                  } `}
+                  onClick={() => handleActiveNavBar(index)}
+                >
+                  <Link to={items.navigate}>{items.nav}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <ul className="flex gap-4">
               <li
                 className={`cursor-pointer py-3 text-sm font-medium text-black border-b-2 ${
                   pathMatchesRoute("/offer")
@@ -61,7 +76,8 @@ onAuthStateChanged(auth, (user) =>{
               >
                 Offer
               </li>
-              <button type='button'
+              <button
+                type="button"
                 className={`cursor-pointer bg-black rounded-3xl py-1 px-5 text-sm font-medium text-white border-b-2 ${
                   (pathMatchesRoute("/sign-in") ||
                     pathMatchesRoute("/profile")) &&

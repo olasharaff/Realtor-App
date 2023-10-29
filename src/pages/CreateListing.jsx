@@ -19,7 +19,7 @@ export default function CreateListing() {
   const navigate = useNavigate();
   const auth = getAuth();
   // create a hook for geolocation of the address
-  const [geoLocationEnabled, setGeoLocationEnabled] = useState(false);
+  const [geoLocationEnabled] = useState(false);
   // create a hook for loading the page after submission of the form
   const [isLoading, setIsLoading] = useState(false);
   // create a hook to define type of data
@@ -61,10 +61,10 @@ export default function CreateListing() {
   function onChangeSEllRent(e) {
     // create a variable called boolean and to be null based on the value we checked if our input is true or false and change a function in form data
     let boolean = null;
-    if (e.target.value === 'true') {
+    if (e.target.value === "true") {
       boolean = true;
     }
-    if (e.target.value === 'false') {
+    if (e.target.value === "false") {
       boolean = false;
     }
     // for file upload
@@ -130,54 +130,57 @@ export default function CreateListing() {
     */
     async function storeImage(image) {
       try {
-      const downloadURL =   new Promise((resolve, reject) => {
-           /* create a variable for storage, filename, storage Reference
+        const downloadURL = new Promise((resolve, reject) => {
+          /* create a variable for storage, filename, storage Reference
         using uuid packakge to generate a unique number for each image incase same image was uploaded twice
          */
-           const storage = getStorage();
-           const filename = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
-           const storageRef = ref(storage, filename);
-           // using the image name from the function storeImage(image)
-           const uploadTask = uploadBytesResumable(storageRef, image);
+          const storage = getStorage();
+          const filename = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
+          const storageRef = ref(storage, filename);
+          // using the image name from the function storeImage(image)
+          const uploadTask = uploadBytesResumable(storageRef, image);
 
-           uploadTask.on(
-             "state_changed",
-             (snapshot) => {
-               // Observe state change events such as progress, pause, and resume
-               // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-               const progress =
-                 (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-               console.log("Upload is " + progress + "% done");
-               switch (snapshot.state) {
-                 case "paused":
-                   console.log("Upload is paused");
-                   break;
-                 case "running":
-                   console.log("Upload is running");
-                   break;
-               }
-             },
-             (error) => {
-               // Handle unsuccessful uploads
-               console.error("Error uploading image:", error);
-               reject(error);
-             },
-             () => {
-               // Handle successful uploads on complete
-               // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-               getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              // Observe state change events such as progress, pause, and resume
+              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log("Upload is " + progress + "% done");
+              switch (snapshot.state) {
+                case "paused":
+                  console.log("Upload is paused");
+                  break;
+                case "running":
+                  console.log("Upload is running");
+                  break;
+                default:
+                  console.log("Unexpected upload state:", snapshot.state);
+                  break;
+              }
+            },
+            (error) => {
+              // Handle unsuccessful uploads
+              console.error("Error uploading image:", error);
+              reject(error);
+            },
+            () => {
+              // Handle successful uploads on complete
+              // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+              getDownloadURL(uploadTask.snapshot.ref).then((url) => {
                 //  console.log("Download URL:", url);
-                 resolve(url);
-               });
-             }
-           );
-         });
-         return downloadURL;
+                resolve(url);
+              });
+            }
+          );
+        });
+        return downloadURL;
       } catch (error) {
-         console.error("Error storing image:", error);
-         throw error;
+        console.error("Error storing image:", error);
+        throw error;
       }
-      
+
       // create copy of the FormData to be sent to the server
     }
     /* Step 1 create a method to store the image/file uploaded in the storage
