@@ -13,7 +13,9 @@ export default function Discover() {
 
   return (
     <div className="max-w-7xl mt-16 mb-6 m-auto ">
-      <p className="px-10 mb-5 font-bold text-2xl">Discover how we can help you</p>
+      <p className="px-10 mb-5 font-bold text-2xl">
+        Discover how we can help you
+      </p>
       <div>
         <div className="flex flex-nowrap px-10 space-x-6 mb-6 items-center">
           <button
@@ -21,7 +23,7 @@ export default function Discover() {
               activeContent === "buying"
                 ? "bg-black text-white"
                 : "border border-black "
-            } px-6 py-3 rounded-3xl transition duration-150 ease-in-out shadow-lg hover:shadow-xl`}
+            } lg:px-6 lg:py-3 lg:rounded-3xl px-4 py-2 lg:text-base text-xs rounded-2xl transition duration-150 ease-in-out shadow-lg hover:shadow-xl`}
             onClick={() => handleButtonClick("buying")}
           >
             Buying
@@ -31,7 +33,7 @@ export default function Discover() {
               activeContent === "renting"
                 ? "bg-black text-white"
                 : "border border-black "
-            } px-6 py-3 rounded-3xl transition duration-200 ease-in-out shadow-lg hover:shadow-xl`}
+            } lg:px-6 lg:py-3 lg:rounded-3xl px-4 py-2 lg:text-base text-xs rounded-2xl transition duration-200 ease-in-out shadow-lg hover:shadow-xl`}
             onClick={() => handleButtonClick("renting")}
           >
             Renting
@@ -41,7 +43,7 @@ export default function Discover() {
               activeContent === "selling"
                 ? "bg-black text-white"
                 : "border border-black "
-            } px-6 py-3 rounded-3xl transition duration-150 ease-in-out shadow-lg hover:shadow-xl `}
+            } lg:px-6 lg:py-3 lg:rounded-3xl px-4 py-2 lg:text-base text-xs rounded-2xl transition duration-150 ease-in-out shadow-lg hover:shadow-xl `}
             onClick={() => handleButtonClick("selling")}
           >
             Selling

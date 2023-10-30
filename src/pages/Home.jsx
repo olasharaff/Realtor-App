@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import Slider from '../components/Slider';
 import { collection, getDocs, limit, query, where } from 'firebase/firestore';
 import { db } from '../firebase';
 import { orderBy } from 'lodash';
 import { Link } from 'react-router-dom';
-import ListingItem from '../components/ListingItem';
+
 import Discover from '../components/Discover';
+import Spinner from '../components/Spinner';
+const ListingItem = lazy(() => import("../components/ListingItem"));
 
 
 export default function Home() {
@@ -116,26 +118,28 @@ export default function Home() {
       <Slider />
       <div className="max-w-6xl mx-auto px-2 space-y-6">
         {/* create a condition to check if the isOfferListing exist and greater than 0 */}
-        {isOfferListing && isOfferListing.length > 0 && (
-          <div className="m-2 mb-6">
-            <h1 className="px-3 text-2xl mt-6 font-bold">Recent Offers</h1>
-            <Link to="/offer">
-              <p className="px-3 text-sm text-gray-700 font-[450] hover:text-gray-800 transition duration-150 ease-in-out cursor-pointer">
-                Show more offer...
-              </p>
-            </Link>
-            <ul className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
-              {isOfferListing.map((listing) => (
-                <ListingItem
-                  key={listing.id}
-                  listing={listing.data}
-                  id={listing.id}
-                  className="cursor-pointer"
-                />
-              ))}
-            </ul>
-          </div>
-        )}
+        <Suspense fallback={<Spinner/>}>
+          {isOfferListing && isOfferListing.length > 0 && (
+            <div className="m-2 mb-6">
+              <h1 className="px-3 text-2xl mt-6 font-bold">Recent Offers</h1>
+              <Link to="/offer">
+                <p className="px-3 text-sm text-gray-700 font-[450] hover:text-gray-800 transition duration-150 ease-in-out cursor-pointer">
+                  Show more offer...
+                </p>
+              </Link>
+              <ul className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
+                {isOfferListing.map((listing) => (
+                  <ListingItem
+                    key={listing.id}
+                    listing={listing.data}
+                    id={listing.id}
+                    className="cursor-pointer"
+                  />
+                ))}
+              </ul>
+            </div>
+          )}
+        </Suspense>
         {/* create a condition to check if the isRentListings exist and greater than 0 */}
         {isRentListings && isRentListings.length > 0 && (
           <div className="m-2 mb-6">
@@ -177,7 +181,7 @@ export default function Home() {
           </div>
         )}
       </div>
-      <Discover/>
+      <Discover />
     </>
   );
 }

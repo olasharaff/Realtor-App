@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import * as Fa from 'react-icons/fa'
+import { Link } from 'react-router-dom';
 
 export default function Search() {
     const [activeItem, setActiveItem] = useState(0);
@@ -8,15 +9,15 @@ export default function Search() {
       setActiveItem(index);
     };
     const items = [
-      "Buy",
-      "Rent",
-      "Sell",
-      "Pre-Approval",
-      "Just Sold",
-      "Home Value",
+      { id: 1, nav: "Buy", navigate: "/buy" },
+      { id: 1, nav: "Rent", navigate: "/rent" },
+      { id: 1, nav: "Sell", navigate: "/sell" },
+      { id: 1, nav: "Pre-Approval", navigate: "/pre-approval" },
+      { id: 1, nav: "Just Sold", navigate: "/just-sold" },
+      { id: 1, nav: "Home Value", navigate: "/my-home" },
     ];
   return (
-    <div>
+    <div className='lg:flex flex-col hidden'>
       <div>
         <ul className="flex font-medium text-white mt-7 mb-7 gap-6">
           {items.map((item, index) => (
@@ -27,7 +28,7 @@ export default function Search() {
               } hover:border-white transition duration-200 ease-in-out`}
               onClick={() => handleActiveClick(index)}
             >
-              {item}
+              <Link to={item.navigate}>{item.nav}</Link>
             </li>
           ))}
         </ul>

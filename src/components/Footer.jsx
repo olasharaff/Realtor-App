@@ -37,81 +37,81 @@ export default function Footer() {
           </div>
           <div className="flex space-x-5 flex-wrap sm:text-center">
             <Link to="">
-              <p className="text-white font-medium text-lg hover:border-b hover:border-white">
+              <p className="text-white font-medium text-lg hover:underline ">
                 About
               </p>
             </Link>
             <Link to="">
-              <p className="text-white font-medium text-lg hover:border-b hover:border-white">
+              <p className="text-white font-medium text-lg hover:underline ">
                 Careers
               </p>
             </Link>
             <Link to="">
-              <p className="text-white font-medium text-lg hover:border-b hover:border-white">
+              <p className="text-white font-medium text-lg hover:underline ">
                 Accessibility
               </p>
             </Link>
 
             <Link to="">
-              <p className="text-white font-medium text-lg hover:border-b hover:border-white">
+              <p className="text-white font-medium text-lg hover:underline ">
                 Feedback
               </p>
             </Link>
             <Link to="">
-              <p className="text-white font-medium text-lg hover:border-b hover:border-white">
+              <p className="text-white font-medium text-lg hover:underline ">
                 Media room
               </p>
             </Link>
             <Link to="">
-              <p className="text-white font-medium text-lg hover:border-b hover:border-white">
+              <p className="text-white font-medium text-lg hover:underline ">
                 Ad Choices
               </p>
             </Link>
             <Link to="">
-              <p className="text-white font-medium text-lg hover:border-b hover:border-white">
+              <p className="text-white font-medium text-lg hover:underline ">
                 Advertise with us
               </p>
             </Link>
 
             <Link to="">
-              <p className="text-white font-medium text-lg hover:border-b hover:border-white">
+              <p className="text-white font-medium text-lg hover:underline ">
                 Agent support
               </p>
             </Link>
             <Link to="">
-              <p className="text-white font-medium text-lg hover:border-b hover:border-white">
+              <p className="text-white font-medium text-lg hover:underline ">
                 Privacy
               </p>
             </Link>
             <Link to="">
-              <p className="text-white font-medium text-lg hover:border-b hover:border-white">
+              <p className="text-white font-medium text-lg hover:underline ">
                 Terms
               </p>
             </Link>
           </div>
           <div className="flex space-x-6 mt-7 flex-wrap sm:text-center  sm:gap-2">
             <Link to="">
-              <p className="text-white font-medium text-lg hover:border-b hover:border-white">
+              <p className="text-white font-medium text-lg hover:underline ">
                 Home Made
               </p>
             </Link>
             <Link to="">
-              <p className="text-white font-medium text-lg hover:border-b hover:border-white">
+              <p className="text-white font-medium text-lg hover:underline ">
                 Tech Blog
               </p>
             </Link>
             <Link to="">
-              <p className="text-white font-medium text-lg hover:border-b hover:border-white">
+              <p className="text-white font-medium text-lg hover:underline ">
                 Agent Blog
               </p>
             </Link>
             <Link to="">
-              <p className="text-white font-medium text-lg hover:border-b hover:border-white">
+              <p className="text-white font-medium text-lg hover:underline ">
                 Sitemap
               </p>
             </Link>
             <Link to="">
-              <p className="text-yellow-600 font-medium text-base hover:border-b-2 hover:border-yellow-600">
+              <p className="text-yellow-600 font-medium text-base hover:underline">
                 Do Not Sell or Share My Personal Information
               </p>
             </Link>

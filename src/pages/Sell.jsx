@@ -78,7 +78,7 @@ export default function Sell() {
             Looking for a local agent?
           </span>{" "}
           <span>Browse reviews and ratings in our</span>{" "}
-          <span className="font-medium border-b border-black text-lg hover:text-gray-400 hover:border-gray-400 cursor-pointer">
+          <span className="font-medium underline text-lg hover:text-gray-400 hover:border-gray-400 cursor-pointer">
             Find a Realtor directory <MdKeyboardArrowDown className="absolute top-5 right-[41%] text-3xl" />{" "}
           </span>{" "}
         </h1>
@@ -108,23 +108,17 @@ export default function Sell() {
                 className={`px-6 py-3 rounded-3xl ${
                   activeItem === index
                     ? "bg-gray-800  text-white  font-medium"
-                    : "text-black font-normal text-sm "
+                    : "text-black underline font-normal text-sm "
                 } hover:bg-gray-800 hover:text-white`}
                 onClick={() => handleActiveClick(index)}
               >
-                <span
-                  className={`${
-                    activeItem === index
-                      ? "hover:border-b-2 hover:border-b-white"
-                      : "border-b border-b-black"
-                  }`}
-                >
+              
                   {item}
-                </span>
+               
               </button>
             ))}
           </div>
-          <p className="text-lg font-light cursor-pointer transition duration-150 ease-in-out hover:text-xl hover:font-normal">
+          <p className="text-normal font-light cursor-pointer underline ">
             Advertising disclosure
           </p>
         </div>
@@ -142,7 +136,7 @@ export default function Sell() {
                 <div className="flex justify-center my-4">
                   <img src={items.icon} alt="sellerGuide" />
                 </div>
-                <p className="">{items.content}</p>
+                <p className="underline">{items.content}</p>
               </div>
             ))}
           </div>

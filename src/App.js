@@ -17,6 +17,7 @@ import Category from "./pages/Category";
 import Footer from "./components/Footer";
 import Sell from "./pages/Sell";
 import Rent from "./pages/Rent";
+import Buy from "./pages/Buy";
 
 
 
@@ -33,6 +34,7 @@ function App() {
               <Route path="/profile" element={<Profile />} />
             </Route>
             <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/buy" element={<Buy />} />
             <Route path="/sell" element={<Sell />} />
             <Route path="/rent" element={<Rent />} />
             <Route path="/category/:categoryName" element={<Category />} />
