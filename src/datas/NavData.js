@@ -21,13 +21,13 @@ const Navitems = [
   },
   {
     id: 5,
-    nav: "Find Realtors",
+    nav: "Find Realtors®",
     navigate: "/find-realtors",
   },
   {
     id: 6,
     nav: "My Home",
-    navigate: "/",
+    navigate: "my-home",
   },
   {
     id: 7,

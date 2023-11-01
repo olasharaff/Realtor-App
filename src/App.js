@@ -18,6 +18,7 @@ import Footer from "./components/Footer";
 import Sell from "./pages/Sell";
 import Rent from "./pages/Rent";
 import Buy from "./pages/Buy";
+import MyHome from "./pages/MyHome";
 
 
 
@@ -35,6 +36,7 @@ function App() {
             </Route>
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/buy" element={<Buy />} />
+            <Route path="/my-home" element={<MyHome/>} />
             <Route path="/sell" element={<Sell />} />
             <Route path="/rent" element={<Rent />} />
             <Route path="/category/:categoryName" element={<Category />} />

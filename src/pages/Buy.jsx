@@ -8,6 +8,8 @@ import { orderBy } from "lodash";
 import ListingItem from "../components/ListingItem";
 import SpecialListing from "../components/SpecialListing";
 import article from "../assets/svg/article.jpg";
+import cube1 from "../assets/svg/cube1.jpg";
+// import cube2 from "../assets/svg/cube2.avif";
 
 export default function Buy() {
   // Sell Listing Home around $1,499,000
@@ -169,7 +171,7 @@ export default function Buy() {
         />
         <div className="absolute z-40 top-28 left-[25%] flex justify-center flex-col max-w-2xl items-center mx-auto">
           <div className="text-center text-white flex flex-col justify-center items-center">
-              <h1 className="font-light text-2xl mb-8">Trends</h1>
+            <h1 className="font-light text-2xl mb-8">Trends</h1>
             <h1 className="font-bold text-2xl mb-5">
               Welcome to Salem, MA: The Scariest Thing About ‘Witch City’ Might
               Be Its Real Estate
@@ -206,6 +208,39 @@ export default function Buy() {
                 />
               ))}
           </ul>
+        </div>
+      </div>
+
+      {/* SECTION 6 */}
+
+      <div className="flex flex-col">
+        <div className="flex ">
+          <div className="w-[50%]">
+            <img src={cube1} alt="" className="w-full" />
+          </div>
+          <div className="w-[50%] shadow-lg border-t border-slate-100 px-8 py-20">
+            <h1>Need a home loan? Get pre-approved</h1>
+            <h1>
+              Find a lender who can offer competitive mortgage rates and help
+              you with pre- approval.
+            </h1>
+            <span>
+              <Link>Get pre-approved now</Link>
+            </span>
+            <p>Advertising disclosure</p>
+          </div>
+        </div>
+        <div className="flex">
+          <div className="w-[50%] shadow-lg border-b border-slate-100 px-8 py-20">
+            <h1>Get Local Info Does</h1>
+            <p>
+              it have pet-friendly rentals? How are the schools? Get important
+              local information on the area you're most interested in.
+            </p>
+          </div>
+          <div className="w-[50%]">
+            <img src={cube1} alt="index" className="w-full" />
+          </div>
         </div>
       </div>
     </>
